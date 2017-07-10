@@ -1,4 +1,5 @@
 'use strict'
+const ObjectID = require('mongodb').ObjectID
 
 module.exports = function(ctx) {
 
@@ -61,8 +62,9 @@ module.exports = function(ctx) {
             updated: new Date()
         })
 
+        var o_id = new ObjectID(req.params.id);
         // build out findOneAndUpdate variables to keep things organized
-        let query = { _id: req.params.id },
+        let query = { _id: o_id },
             body  = { $set: data },
             opts  = {
                 returnOriginal: false,
@@ -82,9 +84,9 @@ module.exports = function(ctx) {
      * Delete
      */
     server.del('/todos/:id', (req, res, next) => {
-
+        var o_id = new ObjectID(req.params.id);
         // remove one document based on passed in id (via route)
-        collection.findOneAndDelete({ _id: req.params.id })
+        collection.findOneAndDelete({ _id: o_id })
             .then(doc => res.send(204))
             .catch(err => res.send(500, err))
 
