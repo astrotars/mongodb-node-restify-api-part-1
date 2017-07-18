@@ -1,4 +1,5 @@
 'use strict'
+
 const ObjectID = require('mongodb').ObjectID
 
 module.exports = function(ctx) {
@@ -84,9 +85,11 @@ module.exports = function(ctx) {
      * Delete
      */
     server.del('/todos/:id', (req, res, next) => {
-        var o_id = new ObjectID(req.params.id);
-        // remove one document based on passed in id (via route)
-        collection.findOneAndDelete({ _id: o_id })
+        
+        const oid = new ObjectID(req.params.id);
+        
+        // remove one document based on passed in id
+        collection.findOneAndDelete({ _id: oid })
             .then(doc => res.send(204))
             .catch(err => res.send(500, err))
 
